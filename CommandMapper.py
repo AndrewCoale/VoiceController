@@ -1,4 +1,3 @@
-from pydirectinput import MouseInput
 from pynput.keyboard import Key, Controller as KeyController
 from pynput.mouse import Button, Controller as MouseController
 import pydirectinput
@@ -36,13 +35,23 @@ mouse_command_map = {
    "right click": "right_click"
 }
 
+camera_map = {
+   "look up": (0, -10),
+   "look down": (0, 10),
+   "look left": (-10, 0),
+   "look right": (10, 0),
+   "look around": "360_view"
+}
+
 position_map = {
     "play": (500, 750),
     "new": (580, 120),
     "stake": (1050, 500),
     "steak": (1050, 500),
     "deck": (1050, 250),
-    "start": (750, 650)
+    "first": (750, 750),
+    "second": (1000, 330),
+    "third": (1200, 370)
 }
 
 
@@ -59,7 +68,7 @@ def send_key(command, duration=0.1):
 def perform_mouse_action(action):
     if action == "left_click":
         mouse.press(Button.left)
-        time.sleep(0.1)
+        time.sleep(10.0)
         mouse.release(Button.left)
     elif action == "right_click":
         mouse.press(Button.right)
@@ -67,6 +76,15 @@ def perform_mouse_action(action):
         mouse.release(Button.right)
     else:
         print(f"Mouse action '{action}' not recognized")
+
+def move_camera(movement):
+    if movement == "360_view":
+        for _ in range(36):
+            pydirectinput.move(10, 0)
+            time.sleep(0.05)
+    else:
+        dx, dy = movement
+        pydirectinput.move(dx, dy)
 
 def focus_window(title):
    #windows = gw.getWindowsWithTitle("Minecraft")
@@ -109,5 +127,7 @@ try:
             send_key(command)
         elif command in mouse_command_map:
             perform_mouse_action(mouse_command_map[command])
+        elif command in camera_map:
+            move_camera(camera_map[command])
 except KeyboardInterrupt:
     print("Stopping...")
