@@ -1,3 +1,4 @@
+from pydirectinput import MouseInput
 from pynput.keyboard import Key, Controller as KeyController
 from pynput.mouse import Button, Controller as MouseController
 import pydirectinput
@@ -16,7 +17,23 @@ command_map = {
    "left": "a",
    "right": "d",
    "jump": Key.space,
-   "sprint": Key.shift
+   "sprint": Key.shift,
+    "menu": Key.esc,
+    "inventory": "e",
+    "one": "1",
+    "two": "2",
+    "three": "3",
+    "four": "4",
+    "five": "5",
+    "six": "6",
+    "seven": "7",
+    "eight": "8",
+    "nine": "9",
+}
+
+mouse_command_map = {
+   "left click": "left_click",
+   "right click": "right_click"
 }
 
 position_map = {
@@ -29,15 +46,27 @@ position_map = {
 }
 
 
-def send_key(command):
-   key = command_map.get(command)
-   if key:
-       keyboard.press(key)
-       keyboard.release(key)
-   else:
+def send_key(command, duration=0.1):
+    key = command_map.get(command)
+    if key:
+        keyboard.press(key)
+        time.sleep(duration)  # Hold the key for a short duration
+        keyboard.release(key)
+    else:
        keyboard.press('a')
        keyboard.release('a')
 
+def perform_mouse_action(action):
+    if action == "left_click":
+        mouse.press(Button.left)
+        time.sleep(0.1)
+        mouse.release(Button.left)
+    elif action == "right_click":
+        mouse.press(Button.right)
+        time.sleep(0.1)
+        mouse.release(Button.right)
+    else:
+        print(f"Mouse action '{action}' not recognized")
 
 def focus_window(title):
    #windows = gw.getWindowsWithTitle("Minecraft")
@@ -57,7 +86,7 @@ def reset():
     keyboard.release(key)
 
 
-focus_window("Balatro")
+focus_window("Minecraft") # change name to specify focus window
 #for i in range(20):
    #send_key(get_voice_command())
 
@@ -76,5 +105,9 @@ try:
             reset()
         elif command in position_map:
             click(position_map[command])
+        elif command in command_map:
+            send_key(command)
+        elif command in mouse_command_map:
+            perform_mouse_action(mouse_command_map[command])
 except KeyboardInterrupt:
     print("Stopping...")
