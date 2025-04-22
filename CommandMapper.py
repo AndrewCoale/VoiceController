@@ -28,6 +28,7 @@ command_map = {
     "seven": "7",
     "eight": "8",
     "nine": "9",
+    "yes": Key.enter
 }
 
 mouse_command_map = {
@@ -36,10 +37,10 @@ mouse_command_map = {
 }
 
 camera_map = {
-   "look up": (0, -10),
-   "look down": (0, 10),
-   "look left": (-10, 0),
-   "look right": (10, 0),
+   "look up": (0, -500),
+   "look down": (0, 500),
+   "look left": (-500, 0),
+   "look right": (500, 0),
    "look around": "360_view"
 }
 
@@ -84,7 +85,7 @@ def move_camera(movement):
             time.sleep(0.05)
     else:
         dx, dy = movement
-        pydirectinput.move(dx, dy)
+        pydirectinput.moveRel(dx, dy, relative=True)
 
 def focus_window(title):
    #windows = gw.getWindowsWithTitle("Minecraft")
@@ -124,7 +125,7 @@ try:
         elif command in position_map:
             click(position_map[command])
         elif command in command_map:
-            send_key(command)
+            send_key(command, 3.0)
         elif command in mouse_command_map:
             perform_mouse_action(mouse_command_map[command])
         elif command in camera_map:
