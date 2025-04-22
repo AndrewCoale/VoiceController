@@ -37,10 +37,10 @@ mouse_command_map = {
 }
 
 camera_map = {
-   "look up": (0, -500),
-   "look down": (0, 500),
-   "look left": (-500, 0),
-   "look right": (500, 0),
+   "look up": (0, -520),
+   "look down": (0, 520),
+   "look left": (-520, 0),
+   "look right": (520, 0),
    "look around": "360_view"
 }
 
@@ -78,14 +78,20 @@ def perform_mouse_action(action):
     else:
         print(f"Mouse action '{action}' not recognized")
 
+
 def move_camera(movement):
     if movement == "360_view":
+        # Do a 360-degree panoramic view in small increments
         for _ in range(36):
-            pydirectinput.move(10, 0)
+            pydirectinput.moveRel(10, 0, relative=True)
             time.sleep(0.05)
     else:
         dx, dy = movement
-        pydirectinput.moveRel(dx, dy, relative=True)
+        dx_step = dx // 10
+        dy_step = dy // 10
+        for _ in range(10):
+            pydirectinput.moveRel(dx_step, dy_step, relative=True)
+            time.sleep(0.02)
 
 def focus_window(title):
    #windows = gw.getWindowsWithTitle("Minecraft")
@@ -106,8 +112,7 @@ def reset():
 
 
 focus_window("Minecraft") # change name to specify focus window
-#for i in range(20):
-   #send_key(get_voice_command())
+
 
 def start_run():
     click(position_map["play"])
