@@ -45,9 +45,9 @@ camera_map = {
 }
 
 position_map = {
-    "first": (750, 750),
-    "second": (1000, 330),
-    "third": (1200, 370)
+    "grab one": (750, 750),
+    "craft": (1000, 330),
+    "retrieve": (1200, 370)
 }
 
 
