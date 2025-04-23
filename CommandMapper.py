@@ -45,11 +45,6 @@ camera_map = {
 }
 
 position_map = {
-    "play": (500, 750),
-    "new": (580, 120),
-    "stake": (1050, 500),
-    "steak": (1050, 500),
-    "deck": (1050, 250),
     "first": (750, 750),
     "second": (1000, 330),
     "third": (1200, 370)
@@ -113,14 +108,6 @@ def reset():
 
 focus_window("Minecraft") # change name to specify focus window
 
-
-def start_run():
-    click(position_map["play"])
-    click(position_map["new"])
-    click(position_map["stake"])
-    click(position_map["start"])
-    click(position_map["start"])
-    time.sleep(5)
 
 try:
     while True:
